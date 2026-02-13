@@ -1,6 +1,7 @@
+#client_main.py
 import socket
 from queue import Queue
-import game
+import game.game as game
 import threading
 
 

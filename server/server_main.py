@@ -1,3 +1,5 @@
+# server_main.py
+
 # 룩, 비숍, 퀸(상대의)
 def chess_check_list_pos(chess_board, check_list, player_color):
     for key, value in chess_board.items():

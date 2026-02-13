@@ -1,3 +1,5 @@
+# state.py
+
 import pygame
 import queue
 import json
@@ -391,6 +393,3 @@ if __name__ == "__main__":
        # wait_board()
        chess()
        
-
-
-
