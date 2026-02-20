@@ -1,5 +1,7 @@
 #  server/server_main.py
 import socket
+import protocol
+import game_init
 
 # 서버의 IP주소, poth 주소 설정
 HOST = '127.0.0.1'
@@ -12,7 +14,17 @@ server_socket.bind((HOST, PORT))
 print("서버 실행 중...")
 
 while True:
-    # 클라이언트로부터 메세지 수신
-    date, client_socket = server_socket.recvfrom(32768)
-    message = date.decode('utf-8')
-    print(f"client로부터 송신 : {message}")
+    data, addr = protocol.recv(server_socket)
+    
+    # 데이터 없는 경우
+    if data is None:
+        continue
+    
+    # 참가 메세지
+    msg_type = data["type"]
+
+    if msg_type == "JOIN":
+        game_init.handle_join(server_socket, addr)
+
+    elif msg_type == "MOVE":
+        game_init.handle_turn(server_socket)
