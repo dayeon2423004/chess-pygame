@@ -1,28 +1,41 @@
 # client/protocol.py
-import json
 
 def make_ready():
-    return json.dumps({
-        "type": "READY"
-    })
+    return {
+        "type": "JOIN"
+    }
 
 def make_chat(msg):
-    return json.dumps({
+    return {
         "type": "CHAT",
         "message": msg
-    })
+    }
 
-# 서버 수신 메세지 변환
-def parse_message(message):
-    data = json.loads(message)
+def make_move_request(from_row, from_col, to_row, to_col):
+    return {
+        "type": "MOVE",
+        "from_row": from_row,
+        "from_col": from_col,
+        "to_row": to_row,
+        "to_col": to_col,
+    }
+
+# 서버 수신 메시지 해석
+def parse_message(data):
 
     msg_type = data["type"]
 
-    if msg_type == "START":
-        return ("START", data["color"])
+    if msg_type == "JOIN_OK":
+        return ("JOIN_OK", "상대를 기다리고 있습니다.")
+
+    elif msg_type == "START":
+        return ("START", data["color"], data["turn"])
 
     elif msg_type == "MOVE":
         return ("MOVE", data)
+
+    elif msg_type == "MOVE_INVALID":
+        return ("MOVE_INVALID",)
 
     elif msg_type == "CHAT":
         return ("CHAT", data["message"])

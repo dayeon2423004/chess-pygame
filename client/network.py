@@ -2,6 +2,7 @@
 
 import socket
 import threading
+import json
 from queue import Queue
 
 # 클라이언트 소켓 / 서버 주소
@@ -16,13 +17,15 @@ def server_recv():
     while True:
         data, _ = client_socket.recvfrom(32768)
         message = data.decode("utf-8")
-        recv_queue.put(message)
+        parsed = json.loads(message)
+        recv_queue.put(parsed)
 
 # 서버로 송신
 def send_message():
     while True:
         message = send_queue.get()
-        client_socket.sendto(message.encode("utf-8"), server_addr)
+        json_data = json.dumps(message)
+        client_socket.sendto(json_data.encode("utf-8"), server_addr)
 
 # 비동기 통신
 def start_network():
