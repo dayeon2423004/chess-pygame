@@ -2,7 +2,7 @@
 import pygame
 from client.protocol import make_move_request
 from client.network import send_queue
-from utils import mouse_pos
+from game.utils import mouse_pos
 
 
 # -------------------------
@@ -36,7 +36,7 @@ def handle_mouse_down(event, state):
 
     # 마우스 좌표 변환
     mouse_x, mouse_y = event.pos
-    pos = mouse_pos(mouse_x, mouse_y)
+    pos = mouse_pos(mouse_x, mouse_y, state["player_color"])
 
     # 만일, 0 ~ 7 이외의 값인 경우
     if pos is None:
@@ -73,7 +73,7 @@ def handle_mouse_up(event, state):
     # 마우스 좌표, 선택 기물 좌표 통일
     start_row, start_col = state["selected_piece"]
     mouse_x, mouse_y = event.pos
-    pos = mouse_pos(mouse_x, mouse_y)
+    pos = mouse_pos(mouse_x, mouse_y, state["player_color"])
 
     # 만일, 0 ~ 7 이외의 값인 경우
     if pos is None:
