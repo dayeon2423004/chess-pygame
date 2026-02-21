@@ -1,7 +1,8 @@
 #  server/server_main.py
+# python -m server.server_main
 import socket
-import protocol
-import game_init
+from server import protocol
+from server import game_init
 
 # 서버의 IP주소, poth 주소 설정
 HOST = '127.0.0.1'

@@ -1,6 +1,6 @@
 # server/game_init.py
 
-import protocol
+from server import protocol
 
 # 상태 값
 client_list = []
