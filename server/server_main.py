@@ -15,16 +15,23 @@ print("서버 실행 중...")
 
 while True:
     data, addr = protocol.recv(server_socket)
-    
-    # 데이터 없는 경우
     if data is None:
         continue
-    
-    # 참가 메세지
+
     msg_type = data["type"]
 
     if msg_type == "JOIN":
         game_init.handle_join(server_socket, addr)
 
     elif msg_type == "MOVE":
-        game_init.handle_turn(server_socket)
+        # TODO:
+        # 1. 턴 확인
+        # 2. 이동 가능 판정
+        # 3. 보드 업데이트
+        # 4. 양쪽 클라이언트에 MOVE 브로드캐스트
+        pass
+
+    elif msg_type == "CHAT":
+        # TODO:
+        # 상대에게 채팅 전달
+        pass
