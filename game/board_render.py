@@ -1,7 +1,7 @@
 # board_render.py
 import pygame
-from utils import chess_find_pos
-from state import COLORS, CELL_SIZE, BOARD_START
+from .utils import chess_find_pos
+from .state import COLORS, CELL_SIZE, BOARD_START
 
 # -------------------
 # 1. 테두리 렌더링
@@ -11,28 +11,42 @@ def draw_border(screen, start_x, start_y, width, height, brown):
 
 
 # -------------------
-# 2. 영어 문자 렌더링
+# 2. 영어 문자 렌더링 
 # -------------------
-def draw_letters(screen, font, black, rect_width):
-    eng_f = 0
-    for eng in range(65, 73):
-        font_render = font.render(chr(eng), True, black)
-        flipped_letter = pygame.transform.flip(font_render, True, True)  # 수평, 수직으로 뒤집기
-        screen.blit(font_render, (rect_width - 15 + eng_f, 858))
-        screen.blit(flipped_letter, (rect_width - 15 + eng_f, 8))
-        eng_f += 100
+def draw_letters(screen, font, black, player_color):
+    for i in range(8):
+
+        # white 기준: A B C D E F G H 정방향
+        # if player_color == "white":
+        letter = chr(65 + i)
+        # else:
+        #     # black이면 반대로
+        #     letter = chr(65 + (7 - i))
+
+        text = font.render(letter, True, black)
+
+        # 위치 조정
+        x = 50 + i * 100 + 35
+        screen.blit(text, (x, 858))
+        screen.blit(text, (x, 8))
 
 # -------------------
-# 3. 숫자 렌더링
+# 3. 숫자 렌더링 
 # -------------------
-def draw_numbers(font, black, screen, rect_width):
-    num_f = 0
-    for num in range(8, 0, -1):
-        font_render2 = font.render(str(num), True, black) # True는 부드럽게 텍스트를 렌더링 하는 역할.
-        flipped_letter2 = pygame.transform.flip(font_render2, True, True)  # 수평, 수직으로 뒤집기
-        screen.blit(font_render2, (18, rect_width - 15 + num_f))
-        screen.blit(flipped_letter2, (865, rect_width - 15 + num_f))
-        num_f += 100
+def draw_numbers(screen, font, black, player_color):
+    for i in range(8):
+
+        # if player_color == "white":
+        number = 8 - i
+        # else:
+        #     number = i + 1
+
+        text = font.render(str(number), True, black)
+
+        y = 50 + i * 100 + 35
+
+        screen.blit(text, (18, y))  
+        screen.blit(text, (865, y))  
 
 
 # -------------------
@@ -78,8 +92,8 @@ def draw_pieces(screen, state):
                 key = f"{piece['color']}_{piece['type']}"
                 image = images[key]
 
-                x, y = chess_find_pos(col, row, state['player_color'])
-                screen.bilt(image, (x, y))
+                x, y = chess_find_pos(row, col, state['player_color'])
+                screen.blit(image, (x, y))
 
 
 # -------------------
@@ -91,9 +105,9 @@ def render(state):
 
     screen.fill(COLORS['white'])
 
-    draw_border(screen, BOARD_START, BOARD_START, CELL_SIZE * 8, CELL_SIZE * 8, COLORS["borwn"])
-    draw_letters(screen, font, COLORS["black"], BOARD_START)
-    draw_numbers(font, COLORS["black"], screen, BOARD_START)
+    draw_border(screen, BOARD_START, BOARD_START, CELL_SIZE * 8, CELL_SIZE * 8, COLORS["brown"])
+    draw_letters(screen, font, COLORS["black"], state["player_color"])
+    draw_numbers(screen, font, COLORS["black"], state["player_color"])
     draw_board(screen, COLORS["cream"], COLORS["brown"], CELL_SIZE, CELL_SIZE)
     draw_highlight(screen, COLORS["green"], state, CELL_SIZE, CELL_SIZE)
     draw_pieces(screen, state)
@@ -111,5 +125,3 @@ def render(state):
             mouse_x, mouse_y = state["drag_pos"]
             rect = image.get_rect(center=(mouse_x, mouse_y))
             screen.blit(image, rect)
-
-            
