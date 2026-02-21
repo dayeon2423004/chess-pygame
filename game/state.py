@@ -1,31 +1,32 @@
 # state.py
 import pygame
 
-# -------------------------
-# 색상 정의
-# -------------------------
+# =========================
+# 전역 환경 설정
+# =========================
+
+# 화면 설정
+SCREEN_WIDTH = 900
+SCREEN_HEIGHT = 900
+
+# 보드 설정
+CELL_SIZE = 100
+BOARD_START = 50
+
+# 색상
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREEN = (0, 255, 0)
-BEIGE = (255, 255, 230)
 BROWN = (210, 139, 73)
 CREAM = (254, 206, 158)
 
-RECT_SIZE = 100
-
-
-# -------------------------
-# 게임 상태 생성
-# -------------------------
-def create_game_state():
-       return {
-       "pieces": [],           
-       "selected_piece": None,
-       "mouse_pos": (None, None),
-       "turn": "white",
-       "board_highlight": [],
-       "player_color": None,
-       }
+COLORS = {
+    "white": WHITE,
+    "black": BLACK,
+    "green": GREEN,
+    "brown": BROWN,
+    "cream": CREAM,
+}
 
 
 # -------------------------
@@ -45,9 +46,9 @@ def load_piece_images():
 
 
 # -------------------------
-# 초기 기물 배치
+# 초기 기물 배치 (y, x)
 # -------------------------
-def create_board():
+def create_piece():
     # 보드 생성
     board = []
 
@@ -74,3 +75,34 @@ def create_board():
     return board
 
 # pieces[board['color']_board['type']] = piece img
+
+
+# -------------------------
+# 게임 상태 생성
+# -------------------------
+def create_game_state():
+
+    pygame.init()
+
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    font = pygame.font.SysFont(None, 24)
+
+    return {
+        # 화면 관련
+        "screen": screen,
+        "font": font,
+
+        # 피스 관련
+        "piece": create_piece(),
+
+        # 게임 상태
+        "selected_piece": None,
+        "dragging": False,
+        "drag_pos": (0, 0),
+        "green_board": None,
+        "turn": "white",
+        "player_color": "white",
+
+        # 이미지
+        "images": load_piece_images(),
+    }
