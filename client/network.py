@@ -9,6 +9,8 @@ from queue import Queue
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 server_addr = ("127.0.0.1", 12345)
 
+client_socket.bind(("0.0.0.0", 0))
+
 recv_queue = Queue()
 send_queue = Queue()
 
