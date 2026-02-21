@@ -1,17 +1,21 @@
 # client/client_main.py
+# python -m client.client_main
+from client.network import start_network, recv_queue, send_queue
+from client import protocol
+from game.state import create_game_state
+from game.game_loop import run
 
-from client.network import start_network, recv_queue, send_queue, client_socket
-import client.protocol as protocol
-from game import state
-import game.game as game
-
-print("게임 참가를 위해 아무 메시지 입력")
-msg = input("서버에 보낼 메시지: ")
-ready = protocol.make_ready()
-client_socket.sendto(ready.encode("utf-8"), ("127.0.0.1", 12345))
+# 클라이언트 state 생성
+state = create_game_state()
 
 # 비동기 통신 시작
 start_network()
+
+# print("게임 참가를 위해 아무 메시지 입력")
+# input("서버에 보낼 메시지: ")
+
+ready = protocol.make_ready()
+send_queue.put(ready)
 
 while True:
     if not recv_queue.empty():
@@ -23,10 +27,12 @@ while True:
 
         elif result[0] == "START":
             my_color = result[1]
-            print(f"게임 시작! 당신은 {my_color} 입니다.")
+            print(f"게임 시작! 당신은 {my_color} 입니다.", state['turn'])
             state["player_color"] = my_color
             state["turn"] = result[2]
-            # game.chess(send_queue, recv_queue)
+            
+            # 게임 루프 시작
+            run(state)
 
         elif result[0] == "MOVE":
             move_data = result[1]
