@@ -85,7 +85,7 @@ def create_game_state():
     pygame.init()
 
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    font = pygame.font.SysFont(None, 24)
+    font = pygame.font.SysFont(None, 35)
 
     return {
         # 화면 관련
