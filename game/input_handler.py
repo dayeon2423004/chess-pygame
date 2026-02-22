@@ -50,6 +50,7 @@ def handle_mouse_down(event, state):
     if piece and piece["color"] == state["player_color"]:
         state["selected_piece"] = (row, col)
         state["dragging"] = True
+        state["drag_pos"] = event.pos
     else:
         state["selected_piece"] = None
 
@@ -93,3 +94,4 @@ def handle_mouse_up(event, state):
     # 드래그 종료
     state["dragging"] = False
     state["selected_piece"] = None
+    state["drag_pos"] = None
