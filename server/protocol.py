@@ -49,3 +49,8 @@ def recv(server_socket):
 def send(server_socket, addr, data_dict):
     message = json.dumps(data_dict)
     server_socket.sendto(message.encode("utf-8"), addr)
+
+def send_all(server_socket, client_list, data_dict):
+    message = json.dumps(data_dict)
+    for client in client_list:
+        server_socket.sendto(message.encode("utf-8"), client)
