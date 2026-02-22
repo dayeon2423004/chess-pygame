@@ -3,6 +3,9 @@
 import socket
 from server import protocol
 from server import game_init
+from chess_logic.move_handler import handle_move
+from .board import create_board
+from .game_init import client_list
 
 # 서버의 IP주소, poth 주소 설정
 HOST = '127.0.0.1'
@@ -14,10 +17,14 @@ server_socket.bind((HOST, PORT))
 
 print("서버 실행 중...")
 
+game_state = {
+    "board": create_board(),
+    "turn": "white"
+}
+
 while True:
     data, addr = protocol.recv(server_socket)
-    if data is None:
-        continue
+    print("받은 메시지:", data)
 
     msg_type = data["type"]
 
@@ -25,14 +32,13 @@ while True:
         game_init.handle_join(server_socket, addr)
 
     elif msg_type == "MOVE":
-        # TODO:
-        # 1. 턴 확인
-        # 2. 이동 가능 판정
-        # 3. 보드 업데이트
-        # 4. 양쪽 클라이언트에 MOVE 브로드캐스트
-        pass
+        result = handle_move(game_state, data["from_row"], data["from_col"], data["to_row"], data["to_col"])
+
+        # flase를 반환 받은 경우, 
+        if result["success"] == False:
+            protocol.send_all(server_socket, client_list, protocol.make_move_invalid())
+        else:
+            protocol.send_all(server_socket, client_list, result)
 
     elif msg_type == "CHAT":
-        # TODO:
-        # 상대에게 채팅 전달
         pass
