@@ -3,12 +3,13 @@ from chess_logic.validator import validate_piece_exists, validate_turn
 from server.board import get_piece, move_piece, remove_piece
 from chess_logic.movement_utils import is_valid_piece_move
 from chess_logic.check import would_cause_suicide, is_checkmate, is_stalemate, is_check
+from typing import Dict, Tuple, Any
 
 
 # --------------------------
 # 서버 규칙 검증 함수
 # --------------------------
-def handle_move(game_state, from_x, from_y, to_x, to_y):
+def handle_move(game_state: Dict[str, Any], from_x: int, from_y: int, to_x: int, to_y: int) -> Dict[str, Any]:
     current_turn = game_state["turn"]
     board = game_state['board']
 
@@ -89,7 +90,7 @@ def handle_move(game_state, from_x, from_y, to_x, to_y):
 # --------------------------
 
 # 폰 프로모션
-def handle_pawn_promotion(board, piece, to_x, to_y, promote_to="queen"):
+def handle_pawn_promotion(board: Dict[Tuple[int, int], Dict[str, Any]], piece: Dict[str, Any], to_x: int, to_y: int, promote_to="queen") -> None:
     color = piece["color"]
 
     if (color == "white" and to_x == 0) or (color == "black" and to_x == 7):
@@ -100,7 +101,7 @@ def handle_pawn_promotion(board, piece, to_x, to_y, promote_to="queen"):
         }
 
 # 앙파상 
-def handle_en_passant(board, piece, from_x, from_y, to_x, to_y):
+def handle_en_passant(board: Dict[Tuple[int, int], Dict[str, Any]], piece: Dict[str, Any], from_x: int, from_y: int, to_x: int, to_y: int) -> bool:
 
     # 내 폰이 대각선 이동했는지
     dx = to_x - from_x
@@ -130,7 +131,7 @@ def handle_en_passant(board, piece, from_x, from_y, to_x, to_y):
     return False
 
 # 캐슬링 검증 함수
-def handle_can_castle(board, king_pos, rook_pos):
+def handle_can_castle(board: Dict[Tuple[int, int], Dict[str, Any]], king_pos: Tuple[int, int], rook_pos: Tuple[int, int]) -> bool:
     king = board.get(king_pos)
     rook = board.get(rook_pos)
 
@@ -164,7 +165,7 @@ def handle_can_castle(board, king_pos, rook_pos):
     return True
 
 # 캐슬링 진행
-def perform_castling(board, king_pos, rook_pos):
+def perform_castling(board: Dict[Tuple[int, int], Dict[str, Any]], king_pos: Tuple[int, int], rook_pos: Tuple[int, int]) -> None:
     king = board.pop(king_pos)
     rook = board.pop(rook_pos)
 
