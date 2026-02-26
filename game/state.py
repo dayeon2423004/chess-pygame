@@ -1,5 +1,6 @@
 # state.py
 import pygame
+from typing import Dict, Any, List, Tuple, Optional
 
 # =========================
 # 전역 환경 설정
@@ -32,7 +33,7 @@ COLORS = {
 # -------------------------
 # 이미지 로드
 # -------------------------
-def load_piece_images():
+def load_piece_images() -> Dict[str, pygame.Surface]:
        pieces = {}
        colors = ["white", "black"]
        names = ["king", "queen", "rook", "bishop", "knight", "pawn"]
@@ -48,7 +49,7 @@ def load_piece_images():
 # -------------------------
 # 초기 기물 배치 (y, x)
 # -------------------------
-def create_piece():
+def create_piece() -> List[List[Optional[Dict[str, Any]]]]:
     # 보드 생성
     board = []
 
@@ -80,7 +81,7 @@ def create_piece():
 # -------------------------
 # 게임 상태 생성
 # -------------------------
-def create_game_state():
+def create_game_state() -> Dict[str, Any]:
 
     pygame.init()
 

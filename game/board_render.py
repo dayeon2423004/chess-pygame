@@ -1,4 +1,5 @@
 # board_render.py
+from typing import Dict, Any, Tuple, Optional
 import pygame
 from .utils import chess_find_pos
 from .state import COLORS, CELL_SIZE, BOARD_START
@@ -6,14 +7,14 @@ from .state import COLORS, CELL_SIZE, BOARD_START
 # -------------------
 # 1. 테두리 렌더링
 # -------------------
-def draw_border(screen, start_x, start_y, width, height, brown):
+def draw_border(screen: pygame.Surface, start_x: int, start_y: int, width: int, height: int, brown: Tuple[int, int, int]) -> None:
     pygame.draw.rect(screen, brown, (start_x, start_y, width, height), 3)
 
 
 # -------------------
 # 2. 영어 문자 렌더링 
 # -------------------
-def draw_letters(screen, font, black, player_color):
+def draw_letters(screen: pygame.Surface, font: pygame.font.Font, black: Tuple[int, int, int], player_color: str) -> None:
     for i in range(8):
 
         # white 기준: A B C D E F G H 정방향
@@ -33,7 +34,7 @@ def draw_letters(screen, font, black, player_color):
 # -------------------
 # 3. 숫자 렌더링 
 # -------------------
-def draw_numbers(screen, font, black, player_color):
+def draw_numbers(screen: pygame.Surface, font: pygame.font.Font, black: Tuple[int, int, int], player_color: str) -> None:
     for i in range(8):
 
         # if player_color == "white":
@@ -52,7 +53,7 @@ def draw_numbers(screen, font, black, player_color):
 # -------------------
 # 4. 게임판 렌더링
 # -------------------
-def draw_board(screen, cream, brown, rect_width, rect_height):
+def draw_board(screen: pygame.Surface, cream: Tuple[int, int, int], brown: Tuple[int, int, int], rect_width: int, rect_height: int) -> None:
     for row in range(1, 9):
         for col in range(1, 9):
             if (row + col) % 2 == 0:
@@ -64,7 +65,7 @@ def draw_board(screen, cream, brown, rect_width, rect_height):
 # -------------------
 # 5. 선택된 칸 하이라이트
 # -------------------
-def draw_highlight(screen, green, state, rect_width, rect_height):
+def draw_highlight(screen: pygame.Surface, green: Tuple[int, int, int], state: Dict[str, Any], rect_width: int, rect_height: int):
     highlight_pos = state["green_board"]
     if highlight_pos:
         pygame.draw.rect(screen, green, (highlight_pos[0], highlight_pos[1], rect_width, rect_height))
@@ -73,7 +74,7 @@ def draw_highlight(screen, green, state, rect_width, rect_height):
 # -------------------
 # 6. 기물 렌더링
 # -------------------
-def draw_pieces(screen, state):
+def draw_pieces(screen: pygame.Surface, state: Dict[str, Any]) -> None:
     board = state["piece"]
     images = state["images"]
     selected = state["selected_piece"]
@@ -99,7 +100,7 @@ def draw_pieces(screen, state):
 # -------------------
 # 7. 모든 렌더링
 # -------------------
-def render(state):
+def render(state: Dict[str, Any]) -> None:
     screen = state['screen']
     font = state['font']
 

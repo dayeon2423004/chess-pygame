@@ -3,11 +3,12 @@ from .input_handler import handle_events
 from .board_render import render
 from client.network import recv_queue
 from client import protocol
+from typing import Dict, Any
 import pygame
 
 
 # 상태 업데이트
-def update_board(state, data):
+def update_board(state: Dict[str, Any], data: Dict[str, Any]) -> None:
     from_x, from_y = data["from"]
     to_x, to_y = data["to"]
 
@@ -28,7 +29,7 @@ def update_board(state, data):
     print("서버의 메세지", data)
 
 # 게임 루프
-def run(state):
+def run(state: Dict[str, Any]) -> None:
     clock = pygame.time.Clock()
     running = True
 
