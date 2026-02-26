@@ -1,17 +1,19 @@
 # client/protocol.py
 
-def make_ready():
+from typing import Dict, Any, Tuple
+
+def make_ready() -> Dict[str, str]:
     return {
         "type": "JOIN"
     }
 
-def make_chat(msg):
+def make_chat(msg: str) -> Dict[str, str]:
     return {
         "type": "CHAT",
         "message": msg
     }
 
-def make_move_request(from_row, from_col, to_row, to_col):
+def make_move_request(from_row: int, from_col: int, to_row: int, to_col: int) -> Dict[str, int | str]:
     return {
         "type": "MOVE",
         "from_row": from_row,
@@ -21,7 +23,7 @@ def make_move_request(from_row, from_col, to_row, to_col):
     }
 
 # 서버 수신 메시지 해석
-def parse_message(data):
+def parse_message(data: Dict[str, Any]) -> Tuple[Any, ...]:
 
     msg_type = data["type"]
 
