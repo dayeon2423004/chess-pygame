@@ -6,18 +6,19 @@ from server import game_init
 from chess_logic.move_handler import handle_move
 from .board import create_board
 from .game_init import client_list
+from typing import Dict, Any, Tuple
 
 # 서버의 IP주소, poth 주소 설정
 HOST = '127.0.0.1'
 PORT = 12345
 
 # socket : UDP 설정
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+server_socket: socket.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 server_socket.bind((HOST, PORT))
 
 print("서버 실행 중...")
 
-game_state = {
+game_state: Dict[str, Any] = {
     "board": create_board(),
     "turn": "white"
 }
