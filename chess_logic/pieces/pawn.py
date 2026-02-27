@@ -1,6 +1,7 @@
 # pawn.py
+from typing import Dict, Tuple, Any
 
-def is_valid_pawn_move(board, piece, from_x, from_y, to_x, to_y):
+def is_valid_pawn_move(board: Dict[Tuple[int, int], Dict[str, Any]], piece: Dict[str, Any], from_x: int, from_y: int, to_x: int, to_y: int) -> bool:
     if piece["color"] == "white":
         direction = -1  
         start_row = 6   

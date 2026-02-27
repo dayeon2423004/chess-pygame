@@ -1,14 +1,16 @@
 # server/game_init.py
 
 from server import protocol
+from typing import List, Tuple, Optional
+import socket
 
 # 상태 값
-client_list = []
-game_status = None
-player_color = None
+client_list: List[Tuple[str, int]] = []
+game_status: Optional[str] = None
+player_color: Optional[str] = None
 
 # 게임 시작 관리
-def handle_join(server_socket, client_addr):
+def handle_join(server_socket: socket.socket, client_addr: Tuple[str, int]) -> None:
     global game_status
 
     # 중복 방지

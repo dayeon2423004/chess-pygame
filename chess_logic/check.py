@@ -1,9 +1,10 @@
 # chess_logic/check.py
 from server.board import copy_board, move_piece
 from chess_logic.movement_utils import is_valid_piece_move
+from typing import Dict, Tuple, Any
 
 # 제 기물의 왕이 체크인 경우
-def is_check(board, color):
+def is_check(board: Dict[Tuple[int, int], Dict[str, Any]], color: str) -> bool:
     king_pos = None
 
     # 제 기물의 킹 좌표 구하기
@@ -22,13 +23,13 @@ def is_check(board, color):
     return False
 
 # 보드를 복사하여 체크 확인
-def would_cause_suicide(board, from_x, from_y, to_x, to_y, color):
+def would_cause_suicide(board: Dict[Tuple[int, int], Dict[str, Any]], from_x: int, from_y: int, to_x: int, to_y: int, color: str) -> bool:
     temp_board = copy_board(board)
     move_piece(temp_board, from_x, from_y, to_x, to_y)
     return is_check(temp_board, color)
 
 # 체크 메이트 확인
-def is_checkmate(board, color):
+def is_checkmate(board: Dict[Tuple[int, int], Dict[str, Any]], color: str) -> bool:
     if not is_check(board, color):
         return False
 
@@ -44,7 +45,7 @@ def is_checkmate(board, color):
     return True
 
 # 스테일메이트 확인
-def is_stalemate(board, color):
+def is_stalemate(board: Dict[Tuple[int, int], Dict[str, Any]], color: str) -> bool:
     if is_check(board, color):
         return False
 

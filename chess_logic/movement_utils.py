@@ -4,9 +4,10 @@ from chess_logic.pieces.pawn import is_valid_pawn_move
 from chess_logic.pieces.knight import is_valid_knight_move
 from chess_logic.pieces.queen import is_valid_queen_move
 from chess_logic.pieces.king import is_valid_king_move
+from typing import Dict, Tuple, Any
 
 # 각 기물별 이동 가능 판별 함수
-def is_valid_piece_move(board, piece, from_x, from_y, to_x, to_y):
+def is_valid_piece_move(board: Dict[Tuple[int, int], Dict[str, Any]], piece: Dict[str, Any], from_x: int, from_y: int, to_x: int, to_y: int) -> bool:
     if piece["type"] == "pawn":
         return is_valid_pawn_move(board, piece, from_x, from_y, to_x, to_y)
     elif piece["type"] == "rook":

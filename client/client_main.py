@@ -4,9 +4,10 @@ from client.network import start_network, recv_queue, send_queue
 from client import protocol
 from game.state import create_game_state
 from game.game_loop import run
+from typing import Any, Dict, Tuple
 
 # 클라이언트 state 생성
-state = create_game_state()
+state: Dict[str, Any] = create_game_state()
 
 # 비동기 통신 시작
 start_network()
@@ -20,7 +21,7 @@ send_queue.put(ready)
 while True:
     if not recv_queue.empty():
         message = recv_queue.get()
-        result = protocol.parse_message(message)
+        result: Tuple[Any, ...] = protocol.parse_message(message)
 
         if result[0] == "JOIN_OK":
             print(result[1])

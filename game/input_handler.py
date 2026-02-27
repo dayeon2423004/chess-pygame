@@ -1,5 +1,6 @@
 # input_handler.py
 import pygame
+from typing import Dict, Any
 from client.protocol import make_move_request
 from client.network import send_queue
 from game.utils import mouse_pos
@@ -8,7 +9,7 @@ from game.utils import mouse_pos
 # -------------------------
 # 전체 이벤트
 # -------------------------
-def handle_events(state):
+def handle_events(state: Dict[str, Any]) -> bool:
 
     for event in pygame.event.get():
 
@@ -30,7 +31,7 @@ def handle_events(state):
 # -------------------------
 # 마우스 클릭
 # -------------------------
-def handle_mouse_down(event, state):
+def handle_mouse_down(event: pygame.event.Event, state: Dict[str, Any]) -> None:
     if state["player_color"] != state["turn"]:
         return
 
@@ -58,14 +59,14 @@ def handle_mouse_down(event, state):
 # -------------------------
 # 마우스 이동
 # -------------------------
-def handle_mouse_motion(event, state):
+def handle_mouse_motion(event: pygame.event.Event, state: Dict[str, Any]) -> None:
     if state["dragging"]:
         state["drag_pos"] = event.pos
 
 # -------------------------
 # 마우스 클릭 해제
 # -------------------------
-def handle_mouse_up(event, state):
+def handle_mouse_up(event: pygame.event.Event, state: Dict[str, Any]) -> None:
     if state["player_color"] != state["turn"]:
         return
     if state["selected_piece"] is None:
